@@ -1,0 +1,42 @@
+1. 產生panorama
+ 
+  將影像資料夾放進./images/中，用autostitch在該資料夾產生pano.txt後，使用下列其中一種執行方法
+  1-1. 用bash執行
+    $bash pano.sh IMAGE_DIR_NAME
+
+    例： 
+      $bash pano.sh 1_small
+      會去讀取images/1_small中的影像，最後產生panorama.jpg於images/1_small/warp/panorama.jpg
+
+
+  1-2. 用python3執行
+
+    $python3 feature.py IMAGE_DIR
+    $python3 warping.py IMAGE_DIR
+    $python3 feature_matching.py IMAGE_DIR
+
+    例： 
+      $python3 feature.py images/1_small
+      $python3 warping.py images/1_small
+      $python3 feature_matching.py images/1_small
+
+
+2. 簡易drift修正(by warping)
+
+  $python3 drift.py PANORAMA_PATH SOURCE_IMAGE_PATH
+  SOURCE_IMAGE_PATH為經過warp的影像，因為需要讀取原始高度來做修正
+  例：
+    $python3 drift.py images/grail/warp images/grail/warp/grail00.jpg
+    會將images/grail/warp/panorama.hpg對偏移的斜率做warping，
+    並儲存至images/grail/warp/panorama_drift.jpg
+
+
+3. clip
+  
+  $python3 clip.py PANORAMA_DIR TOP_RATIO BOTTOM_RATIO
+  PANORAMA_DIR為panorama.jpg所在的資料夾位置
+  例：
+    $python3 clip.py images/grail/warp 0.15 0.7
+    會將images/grail/warp資料夾底下的panorama.jpg的上面15％，下面30％裁切掉，
+    並儲存至images/grail/warp/panorama_clip.jpg
+
